@@ -97,6 +97,7 @@ class LogTailView(UserCanViewLogsMixin, AdminLoginRequiredMixin, View):
                 yield json.dumps(line).strip(u'"')
             else:
                 yield '", "ends": "%d"}' % context['log'].tell()
+                context['log'].close()
                 return
 
     def render_to_response(self, context):
