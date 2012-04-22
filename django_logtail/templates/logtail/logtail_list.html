@@ -11,8 +11,8 @@
     height: auto;
     overflow-x: scroll;
   }
-  #content-main {
-    margin-top: 20px;
+  .object-tools {
+    margin-top: 5px;
   }
 </style>
 {% if include_jquery %}
@@ -29,9 +29,6 @@
 
 {% block content %}
   <div id="content-main">
-    <ul class="object-tools">
-      <li><a href="history/" class="historylink">Auto-Scroll</a></li>
-    </ul>
     <div class="module">
       <table id="change-history">
         <thead>
@@ -55,6 +52,9 @@
 </pre>
     </div>
   </div>
+  <ul class="object-tools">
+    <li><a href="#" id="auto-scroll-toggle" class="historylink">Turn Auto-Scroll On</a></li>
+  </ul>
   <script type="text/javascript">
     // Django logtail script
 
@@ -63,6 +63,7 @@
     var new_start = "0";
     var can_poll = true;
     var timed_out = false;
+    var auto_scroll = false;
     var interval;
 
     // Timeout the polling after eight minutes
@@ -87,13 +88,31 @@
       $.getJSON(full_url, function(data) {
         $("#log-tail").append(data["data"]);
         new_start = data["ends"];
+
+        if (auto_scroll) {
+          $('html, body').animate({ 
+            scrollTop: $(document).height()-$(window).height()},
+            0
+          );
+        }
       });
 
       can_poll = true
     };
 
-    $(".logfile_change").live("click", function() {
+    $("#auto-scroll-toggle").live("click", function(e) {
+      e.preventDefault();
+      if (auto_scroll) {
+        auto_scroll = false;
+        $(this).text("Turn Auto-Scroll On");
+      }
+      else {
+        auto_scroll = true;
+        $(this).text("Turn Auto-Scroll Off");
+      }
+    });
 
+    $(".logfile_change").live("click", function() {
       var log = $(this).text();
       var url = (BASE_URL + log);
 
