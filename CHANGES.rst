@@ -2,10 +2,11 @@
 Changelog for django_logtail
 ============================
 
-0.0.1 (unreleased)
+0.0.1 (2012-04-22)
 ------------------
 
-- Nothing changed yet.
+- Update the package MANIFEST.in to ensure that the README and changelog are
+  included.
 
 
 0.0.0 (2012-04-22)
