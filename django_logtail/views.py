@@ -52,13 +52,20 @@ class LogTailView(AdminLoginRequiredMixin, View):
         except KeyError:
             raise Http404('No such log file')
 
-        file_length = getsize(log_file)
+        try:
+            file_length = getsize(log_file)
+        except OSError:
+            raise Http404('Cannot access file')
+
         if seek_to > file_length:
             seek_to = file_length
 
-        context['log'] = file(log_file, 'r')
-        context['log'].seek(seek_to)
-        context['starts'] = seek_to
+        try:
+            context['log'] = file(log_file, 'r')
+            context['log'].seek(seek_to)
+            context['starts'] = seek_to
+        except IOError:
+            raise Http404('Cannot access file')
 
         return context
 
