@@ -8,7 +8,7 @@ long_description = open('README.rst').read() + '\n\n' + \
 setup(
     name='django_logtail',
     version=version,
-    description='A log viewing and tailing utility accessible via a Django' \
+    description='A log viewing and tailing utility accessible via a Django ' \
                 'admin panel',
     long_description=long_description,
     keywords='django admin logfile viewer tail log',
