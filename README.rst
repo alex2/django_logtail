@@ -49,3 +49,10 @@ logtail should then appear in your admin, and provide access to these files -
 including a live tail of the file.
 
 Simples.
+
+Other Settings
+==============
+
+You can set the default update interval for the log tailing::
+
+    LOGTAIL_UPDATE_INTERVAL = 50000 # Default is 1000 (one second)
