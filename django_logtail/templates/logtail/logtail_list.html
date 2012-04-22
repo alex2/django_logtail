@@ -46,15 +46,15 @@
     // Django logtail script
 
     var BASE_URL = "{% url "log_list" %}";
-    var TIMEOUT = 1000 * 60 * 5;
+    var TIMEOUT = 1000 * 60 * 8;
     var new_start = "0";
     var can_poll = true;
     var timed_out = false;
     var interval;
 
-    // Timeout the polling after five minutes
+    // Timeout the polling after eight minutes
     window.setTimeout(function() {
-      alert("The polling timed out.");
+      alert("The polling timed out. Refresh to tail again.");
       timed_out = true;
     }, TIMEOUT);
 
