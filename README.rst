@@ -26,9 +26,13 @@ Add it via your installed apps::
         'django_logtail',
     )
 
-Absolutely ensure that the user that your django process (whether it's wsgi,
-fastcgi, django runserver for debugging, or something else) has permission to
-read all of the files in your LOGTAIL_FILES list.
+If any of your django admin plugin apps already add a jquery header::
+
+    LOGTAIL_INCLUDE_JQUERY = False # Default is True
+
+Then absolutely ensure that the user that your django process (whether it's
+wsgi, fastcgi, django runserver for debugging, or something else) has
+permission to read all of the files in your LOGTAIL_FILES list.
 
 Then logtail will appear in your admin, and provide access to these files -
 including a live tail of the file.
