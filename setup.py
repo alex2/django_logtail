@@ -15,7 +15,7 @@ setup(
     author='Alex Holmes',
     author_email='alex.holmes@isotoma.com',
     url='https://github.com/alex2/django_logtail',
-    license='Apache Software License',
+    license='The MIT License',
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     include_package_data=True,
     zip_safe=False,
