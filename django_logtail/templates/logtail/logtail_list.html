@@ -1,0 +1,45 @@
+{% extends "admin/object_history.html" %}
+{% load url from future %}
+{% load admin_urls %}
+
+{% block extrahead %}
+{{ block.super }}
+<style type="text/css">
+  pre.log-tail {
+    white-space: nowrap;
+  }
+</style>
+{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+  <div id="content-main">
+    <div class="module">
+      <table id="change-history">
+        <thead>
+          <tr>
+            <th scope="col">Log</th>
+            <th scope="col">Path</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for log, path in object_list.items %}
+            <tr>
+              <th scope="row"><a href="#" class="logfile_change">{{ log }}</a></th>
+              <td>{{ path }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="log-tail">
+    </div>
+  </div>
+  <script type="text/javascript">
+    BASE_URL = "{% url "log_list" %}";
+    $(".logfile_change").click(function() {
+      url = (BASE_URL + $(this).text());
+    });
+  </script>
+{% endblock %}
