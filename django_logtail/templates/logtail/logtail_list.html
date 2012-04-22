@@ -72,9 +72,6 @@
       var full_url = url + "/" + new_start + "/";
 
       $.getJSON(full_url, function(data) {
-        if (new_start == "0") {
-          $("#log-tail").empty();
-        }
         $("#log-tail").append(data["data"]);
         new_start = data["ends"];
       });
@@ -87,7 +84,11 @@
       var log = $(this).text();
       var url = (BASE_URL + log);
 
-      new_start = "0";
+      if (new_start != "0") {
+        window.clearInterval(interval);
+        $("#log-tail").empty();
+        new_start = "0";
+      }
 
       tail(url, new_start);
       interval = window.setInterval(tail, 2000, url);
