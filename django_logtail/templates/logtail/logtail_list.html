@@ -2,6 +2,8 @@
 {% load url from future %}
 {% load admin_urls %}
 
+{% block title %}Logtail {{ block.super }}{% endblock %}
+
 {% block extrahead %}
 {{ block.super }}
 <style type="text/css">
