@@ -5,10 +5,14 @@
 {% block extrahead %}
 {{ block.super }}
 <style type="text/css">
-  pre.log-tail {
-    white-space: nowrap;
+  pre#log-tail {
+    height: auto;
+    overflow-x: scroll;
   }
 </style>
+{% if include_jquery %}
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+{% endif %}
 {% endblock %}
 
 {% block breadcrumbs %}{% endblock %}
@@ -34,12 +38,59 @@
       </table>
     </div>
     <div class="log-tail">
+<pre id="log-tail">
+</pre>
     </div>
   </div>
   <script type="text/javascript">
-    BASE_URL = "{% url "log_list" %}";
-    $(".logfile_change").click(function() {
-      url = (BASE_URL + $(this).text());
+    // Django logtail script
+
+    var BASE_URL = "{% url "log_list" %}";
+    var TIMEOUT = 1000 * 60 * 5;
+    var new_start = "0";
+    var can_poll = true;
+    var timed_out = false;
+    var interval;
+
+    // Timeout the polling after five minutes
+    window.setTimeout(function() {
+      alert("The polling timed out.");
+      timed_out = true;
+    }, TIMEOUT);
+
+    var tail = function(url) {
+      if (timed_out == true) {
+        return
+      }
+
+      // Theoretically avoid checking multiple times at once
+      if (can_poll == false) {
+        return
+      }
+      can_poll = false
+
+      var full_url = url + "/" + new_start + "/";
+
+      $.getJSON(full_url, function(data) {
+        if (new_start == "0") {
+          $("#log-tail").empty();
+        }
+        $("#log-tail").append(data["data"]);
+        new_start = data["ends"];
+      });
+
+      can_poll = true
+    };
+
+    $(".logfile_change").live("click", function() {
+
+      var log = $(this).text();
+      var url = (BASE_URL + log);
+
+      new_start = "0";
+
+      tail(url, new_start);
+      interval = window.setInterval(tail, 2000, url);
     });
   </script>
 {% endblock %}
