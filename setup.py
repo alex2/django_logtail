@@ -9,7 +9,7 @@ setup(
     name='django_logtail',
     version=version,
     description='A log viewing and tailing utility accessible via a Django' \
-                'admin panel'
+                'admin panel',
     long_description=long_description,
     keywords='django admin logfile viewer tail log',
     author='Alex Holmes',
