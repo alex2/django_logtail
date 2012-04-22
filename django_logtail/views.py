@@ -6,8 +6,10 @@ from django.http import HttpResponse, Http404
 from django.utils import simplejson as json
 from django.views.generic import View, ListView
 from django.contrib.auth.decorators import login_required
-
 from django_logtail import app_settings
+
+class HttpUnauthorized(HttpResponse):
+    status_code = 401
 
 class AdminLoginRequiredMixin(object):
     """Mixin to apply the login_required decorator to the as_view
@@ -19,7 +21,17 @@ class AdminLoginRequiredMixin(object):
             super(AdminLoginRequiredMixin, cls).as_view(**initkwargs),
         )
 
-class LogListView(AdminLoginRequiredMixin, ListView):
+class UserCanViewLogsMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        def wrapper(request, *args, **kwargs):
+            if not request.user.has_perm('django_logtail.can_view_logs'):
+                return HttpUnauthorized('User does not have permission to view logs')
+            return super(UserCanViewLogsMixin, self).dispatch(
+                request, *args, **kwargs)
+
+        return wrapper(request, *args, **kwargs)
+
+class LogListView(UserCanViewLogsMixin, AdminLoginRequiredMixin, ListView):
     template_name = 'logtail/logtail_list.html'
 
     @property
@@ -34,7 +46,7 @@ class LogListView(AdminLoginRequiredMixin, ListView):
         context['include_jquery'] = app_settings.LOGTAIL_INCLUDE_JQUERY
         return context
 
-class LogTailView(AdminLoginRequiredMixin, View):
+class LogTailView(UserCanViewLogsMixin, AdminLoginRequiredMixin, View):
     """
     Returns JSON of the form::
 
