@@ -2,7 +2,7 @@
 Changelog for django_logtail
 ============================
 
-0.0.0 (unreleased)
+0.0.0 (2012-04-22)
 ------------------
 
 - Initial release.
