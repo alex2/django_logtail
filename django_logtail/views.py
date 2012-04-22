@@ -1,4 +1,4 @@
-from os.path import getsize
+from os.path import getsize, exists
 
 from django_logtail import app_settings
 from django.core import urlresolvers
@@ -21,7 +21,13 @@ class AdminLoginRequiredMixin(object):
 
 class LogListView(AdminLoginRequiredMixin, ListView):
     template_name = 'logtail/logtail_list.html'
-    queryset = app_settings.LOGTAIL_FILES
+
+    @property
+    def queryset(self):
+        for log, filename in app_settings.LOGTAIL_FILES.iteritems():
+            if exists(filename):
+                yield (log, filename)
+
 
     def get_context_data(self, **kwargs):
         context = super(LogListView, self).get_context_data(**kwargs)
