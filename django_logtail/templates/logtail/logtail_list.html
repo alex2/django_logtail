@@ -11,16 +11,27 @@
     height: auto;
     overflow-x: scroll;
   }
+  #content-main {
+    margin-top: 20px;
+  }
 </style>
 {% if include_jquery %}
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 {% endif %}
 {% endblock %}
 
-{% block breadcrumbs %}{% endblock %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">Home</a>
+  &rsaquo; <a href="{% url 'log_list' %}">Logtail</a>
+</div>
+{% endblock %}
 
 {% block content %}
   <div id="content-main">
+    <ul class="object-tools">
+      <li><a href="history/" class="historylink">Auto-Scroll</a></li>
+    </ul>
     <div class="module">
       <table id="change-history">
         <thead>
@@ -39,7 +50,7 @@
         </tbody>
       </table>
     </div>
-    <div class="log-tail">
+    <div>
 <pre id="log-tail">
 </pre>
     </div>
