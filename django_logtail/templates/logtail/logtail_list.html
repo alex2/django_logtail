@@ -60,6 +60,7 @@
 
     var BASE_URL = "{% url "log_list" %}";
     var TIMEOUT = 1000 * 60 * 8;
+    var UPDATE_INTERVAL = {{ update_interval }};
     var new_start = "0";
     var can_poll = true;
     var timed_out = false;
@@ -123,7 +124,7 @@
       }
 
       tail(url, new_start);
-      interval = window.setInterval(tail, 1000, url);
+      interval = window.setInterval(tail, UPDATE_INTERVAL, url);
     });
   </script>
 {% endblock %}

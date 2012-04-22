@@ -44,6 +44,7 @@ class LogListView(UserCanViewLogsMixin, AdminLoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(LogListView, self).get_context_data(**kwargs)
         context['include_jquery'] = app_settings.LOGTAIL_INCLUDE_JQUERY
+        context['update_interval'] = app_settings.LOGTAIL_UPDATE_INTERVAL
         return context
 
 class LogTailView(UserCanViewLogsMixin, AdminLoginRequiredMixin, View):
