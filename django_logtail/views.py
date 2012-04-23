@@ -1,4 +1,4 @@
-from os.path import getsize, exists
+from os.path import getsize, isfile
 
 from django_logtail import app_settings
 from django.core import urlresolvers
@@ -37,7 +37,7 @@ class LogListView(UserCanViewLogsMixin, AdminLoginRequiredMixin, ListView):
     @property
     def queryset(self):
         for log, filename in app_settings.LOGTAIL_FILES.iteritems():
-            if exists(filename):
+            if isfile(filename):
                 yield (log, filename)
 
 
