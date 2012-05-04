@@ -7,9 +7,11 @@
 {% block extrahead %}
 {{ block.super }}
 <style type="text/css">
-  pre#log-tail {
+  #log-tail {
     height: auto;
     overflow-x: scroll;
+    white-space: pre;
+    font-family: monospace;
   }
   .object-tools {
     margin-top: 5px;
@@ -48,8 +50,8 @@
       </table>
     </div>
     <div>
-<pre id="log-tail">
-</pre>
+<div id="log-tail">
+</div>
     </div>
   </div>
   <ul class="object-tools">
@@ -87,7 +89,7 @@
       var full_url = url + "/" + new_start + "/";
 
       $.getJSON(full_url, function(data) {
-        $("#log-tail").append(data["data"]);
+        $("#log-tail").each(function() {$(this).text($(this).text() + data["data"]);});
         new_start = data["ends"];
 
         if (auto_scroll) {

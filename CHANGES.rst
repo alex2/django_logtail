@@ -2,6 +2,12 @@
 Changelog for django_logtail
 ============================
 
+0.0.2 (2012-05-04)
+------------------
+
+- Escape log text to prevent html element lookalikes screwing up the formatting.
+
+
 0.0.1 (2012-04-22)
 ------------------
 
