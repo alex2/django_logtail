@@ -56,7 +56,9 @@
   </div>
   <ul class="object-tools">
     <li><a href="#" id="auto-scroll-toggle" class="historylink">Turn Auto-Scroll On</a></li>
+    <li><a href="#" id="auto-poll-toggle" class="historylink">Turn Auto-Poll On</a></li>
   </ul>
+
   <script type="text/javascript">
     // Django logtail script
 
@@ -67,6 +69,7 @@
     var can_poll = true;
     var timed_out = false;
     var auto_scroll = false;
+    var auto_poll = false;
     var interval;
 
     // Timeout the polling after eight minutes
@@ -81,7 +84,7 @@
       }
 
       // Theoretically avoid checking multiple times at once
-      if (can_poll == false) {
+      if (!(can_poll && auto_poll)) {
         return
       }
       can_poll = false
@@ -93,7 +96,7 @@
         new_start = data["ends"];
 
         if (auto_scroll) {
-          $('html, body').animate({ 
+          $('html, body').animate({
             scrollTop: $(document).height()-$(window).height()},
             0
           );
@@ -113,6 +116,18 @@
         auto_scroll = true;
         $(this).text("Turn Auto-Scroll Off");
       }
+    });
+
+    $("#auto-poll-toggle").live("click", function(e) {
+        e.preventDefault();
+        if (auto_poll) {
+            auto_poll = false;
+            $(this).text("Turn Auto-Poll On");
+        }
+        else {
+            auto_poll = true;
+            $(this).text("Turn Auto-Poll Off");
+        }
     });
 
     $(".logfile_change").live("click", function() {
