@@ -2,6 +2,12 @@
 Changelog for django_logtail
 ============================
 
+0.0.3 (2012-08-16)
+------------------
+
+- Add the ability to turn off polling (@scott-w)
+
+
 0.0.2 (2012-05-04)
 ------------------
 
