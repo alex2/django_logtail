@@ -60,88 +60,109 @@
   </ul>
 
   <script type="text/javascript">
-    // Django logtail script
-
-    var BASE_URL = "{% url "log_list" %}";
-    var TIMEOUT = 1000 * 60 * 8;
-    var UPDATE_INTERVAL = {{ update_interval }};
-    var new_start = "0";
-    var can_poll = true;
-    var timed_out = false;
-    var auto_scroll = false;
-    var auto_poll = true;
-    var interval;
-
-    // Timeout the polling after eight minutes
-    window.setTimeout(function() {
-      alert("The polling timed out. Refresh to tail again.");
-      timed_out = true;
-    }, TIMEOUT);
-
-    var tail = function(url) {
-      if (timed_out == true) {
-        return
+    (function() {
+      function LogTailer(baseUrl, updateInterval, timeout, autoScroll, autoPoll) {
+        this.baseUrl = baseUrl;
+        this.timeout = timeout || (1000 * 60 * 8);
+        this.updateInterval = updateInterval || 4000;
+        this.autoScroll = autoScroll || false;
+        this.autoPoll = autoPoll || true;
+        this.requesting = false;
+        this.position = 0;
+        this.$textElement = $("#log-tail");
       }
 
-      // Theoretically avoid checking multiple times at once
-      if (!(can_poll && auto_poll)) {
-        return
-      }
-      can_poll = false
+      LogTailer.prototype = {
 
-      var full_url = url + "/" + new_start + "/";
+        poll: function(log) {
+          this.log = log;
+          this.position = 0;
+          this.requesting = false;
 
-      $.getJSON(full_url, function(data) {
-        $("#log-tail").each(function() {$(this).text($(this).text() + data["data"]);});
-        new_start = data["ends"];
+          if (this.interval) {
+            clearInterval(this.interval);
+          }
+          this.$textElement.text('');
 
-        if (auto_scroll) {
-          $('html, body').animate({
-            scrollTop: $(document).height()-$(window).height()},
+          var thisTailer = this;
+          this.interval = setInterval(function() {
+            thisTailer.makeRequest();
+          }, this.updateInterval);
+        },
+
+        stop: function() {
+          if (this.interval) {
+            clearInterval(this.interval);
+          }
+        },
+
+        makeRequest: function() {
+          if (!this.requesting && this.autoPoll) {
+            this.requesting = true;
+
+            var fullUrl = this.baseUrl + this.log + "/" + this.position + "/",
+                thisTailer = this;
+
+            $.getJSON(fullUrl, function(data) {
+              thisTailer.handleResponse(data);
+            });
+          }
+        },
+
+        handleResponse: function(data) {
+          if (this.requesting) {
+            this.position = data['ends'];
+            this.$textElement.text(this.$textElement.text() + data["data"]);
+
+            if (this.autoScroll) {
+              this.scrollBottom();
+            }
+          }
+          this.requesting = false;
+        },
+
+        scrollBottom: function() {
+          $('html, body').animate(
+            {scrollTop: $(document).height()-$(window).height()},
             0
           );
         }
-      });
+      }
 
-      can_poll = true
-    };
+      var baseUrl = "{% url "log_list" %}";
+      var updateInterval = {{ update_interval }};
+      window.tailer = new LogTailer(baseUrl, updateInterval);
+    })();
 
-    $("#auto-scroll-toggle").live("click", function(e) {
+    // Configure JQuery Events
+    $('.logfile_change').live('click', function() {
+      var log = $(this).text();
+      window.tailer.poll(log);
+    });
+
+    $('#auto-scroll-toggle').live('click', function(e) {
       e.preventDefault();
-      if (auto_scroll) {
-        auto_scroll = false;
-        $(this).text("Turn Auto-Scroll On");
+      if (window.tailer.autoScroll) {
+        window.tailer.autoScroll = false;
+        $(this).text('Turn Auto-Scroll On');
       }
       else {
-        auto_scroll = true;
-        $(this).text("Turn Auto-Scroll Off");
+        window.tailer.autoScroll = true;
+        $(this).text('Turn Auto-Scroll Off');
       }
     });
 
-    $("#auto-poll-toggle").live("click", function(e) {
-        e.preventDefault();
-        if (auto_poll) {
-            auto_poll = false;
-            $(this).text("Turn Auto-Poll On");
-        }
-        else {
-            auto_poll = true;
-            $(this).text("Turn Auto-Poll Off");
-        }
-    });
-
-    $(".logfile_change").live("click", function() {
-      var log = $(this).text();
-      var url = (BASE_URL + log);
-
-      if (new_start != "0") {
-        window.clearInterval(interval);
-        $("#log-tail").empty();
-        new_start = "0";
+    $('#auto-poll-toggle').live('click', function(e) {
+      e.preventDefault();
+      if (window.tailer.autoPoll) {
+        window.tailer.autoPoll = false;
+        $(this).text('Turn Auto-Poll On');
       }
-
-      tail(url, new_start);
-      interval = window.setInterval(tail, UPDATE_INTERVAL, url);
+      else {
+        window.tailer.autoPoll = true;
+        $(this).text('Turn Auto-Poll Off');
+      }
     });
+
   </script>
 {% endblock %}
