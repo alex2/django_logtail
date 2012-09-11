@@ -61,4 +61,4 @@ Other Settings
 
 You can set the default update interval for the log tailing::
 
-    LOGTAIL_UPDATE_INTERVAL = 50000 # Default is 1000 (one second)
+    LOGTAIL_UPDATE_INTERVAL = 50000 # Default is 3000 (three second)

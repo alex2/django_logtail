@@ -88,6 +88,9 @@
           this.interval = setInterval(function() {
             thisTailer.makeRequest();
           }, this.updateInterval);
+
+          // Make a request now to avoid waiting
+          thisTailer.makeRequest();
         },
 
         stop: function() {
