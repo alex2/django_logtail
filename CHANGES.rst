@@ -2,11 +2,12 @@
 Changelog for django_logtail
 ============================
 
-0.0.4 (unreleased)
+0.0.4 (2012-12-20)
 ------------------
 
 - Improved the quality of the javascript polling code
-- The default poll time is now three seconds (rather than every one)
+- The default poll time is now three seconds, rather than every one
+- Now Django 1.3+ compatible (@victorgp)
 
 
 0.0.3 (2012-08-16)
