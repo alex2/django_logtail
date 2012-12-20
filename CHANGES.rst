@@ -2,6 +2,12 @@
 Changelog for django_logtail
 ============================
 
+0.0.5 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
 0.0.4 (2012-12-20)
 ------------------
 
