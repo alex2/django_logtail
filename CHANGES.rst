@@ -5,7 +5,7 @@ Changelog for django_logtail
 0.0.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Use a CDN that does not serve gateway timeouts (mediatemple -> google)
 
 
 0.0.5 (2013-03-20)
