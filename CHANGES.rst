@@ -5,7 +5,7 @@ Changelog for django_logtail
 0.0.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Load the jquery js over https where required using a protocol-relative url.
 
 
 0.0.4 (2012-12-20)
