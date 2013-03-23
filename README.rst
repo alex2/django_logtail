@@ -20,7 +20,7 @@ Django logtail takes a dictionary from your settings.py as follows::
 
     LOGTAIL_FILES = {
         'apache': '/var/www/www.foo.com.log',
-        'django', '/var/log/www.foo.com/project.log',
+        'django': '/var/log/www.foo.com/project.log',
     }
 
 Add it via your installed apps::
