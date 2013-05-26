@@ -5,7 +5,7 @@ Changelog for django_logtail
 0.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add the static folder to the MANIFEST.in
 
 
 0.1.0 (2013-05-26)
