@@ -2,7 +2,7 @@
 Changelog for django_logtail
 ============================
 
-0.1.0 (unreleased)
+0.1.0 (2013-05-26)
 ------------------
 
 - Adding ``django_logtail.urls`` to your project's ``ROOT_URLCONF`` is no
