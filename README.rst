@@ -48,7 +48,9 @@ You can set the default update interval for the log tailing::
 
 Developing
 ==========
-::
+
+You can build a development environment using the following instructions::
+
     virtualenv venv --distribute
     source venv/bin/activate
     python manage.py syncdb
