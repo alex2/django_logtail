@@ -16,7 +16,13 @@ class HttpUnauthorized(HttpResponse):
 class LogAdmin(admin.ModelAdmin):
 
     class Media:
-        js = ['admin/js/jquery.min.js', 'admin/js/jquery.init.js',]
+        js = (
+            'admin/js/jquery.min.js', 'admin/js/jquery.init.js',
+            'logtail/js/logtail.js',
+        )
+        css = {
+            'all': ('logtail/css/logtail.css',)
+        }
 
     def has_add_permission(self, request):
         return False
