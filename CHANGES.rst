@@ -2,10 +2,17 @@
 Changelog for django_logtail
 ============================
 
-0.0.7 (unreleased)
+0.1.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Adding ``django_logtail.urls`` to your project's ``ROOT_URLCONF`` is no
+  longer necessary. All log tailing functionality has been moved to the
+  ``ModelAdmin`` class in the form of the URLs and views.
+- Now that the view is served from the ModelAdmin, use the Media class to define
+  jquery dependency, and use django's built-in jquery object rather than using a
+  CDN.
+- Added example/ project for easier testing.
+- Update documentation.
 
 
 0.0.6 (2013-03-20)

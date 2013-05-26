@@ -30,31 +30,14 @@ Add it via your installed apps::
         'django_logtail',
     )
 
-If any of your django admin plugin apps already add a jquery header::
-
-    LOGTAIL_INCLUDE_JQUERY = False # Default is True
-
-Next hook it into your root_urlconf, above the bog-standard admin urls::
-
-    from django_logtail import urls as logtail_urls
-
-    urlpatterns = patterns('',
-        # First this
-        url(r'^admin/django_logtail/', include(logtail_urls)),
-
-        # Then this
-        url(r'^admin/', include(admin.site.urls)),
-        ...
-    )
 
 Then absolutely ensure that the user that your django process runs as (whether
 it's via wsgi, fastcgi, django runserver for debugging, or something else) has
 permission to read all of the files in your LOGTAIL_FILES list.
 
 logtail should then appear in your admin, and provide access to these files -
-including a live tail of the file.
-
-Simples.
+including a live tail of the file. Note that files will not appear if the
+django process cannot access them.
 
 Other Settings
 ==============
@@ -62,3 +45,11 @@ Other Settings
 You can set the default update interval for the log tailing::
 
     LOGTAIL_UPDATE_INTERVAL = 50000 # Default is 3000 (three second)
+
+Developing
+==========
+::
+    virtualenv venv --distribute
+    source venv/bin/activate
+    python manage.py syncdb
+    python manage.py runserver

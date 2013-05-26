@@ -1,7 +1,5 @@
-{% extends "admin/object_history.html" %}
+{% extends "admin/change_list.html" %}
 {% load url from future %}
-
-{% block title %}Logtail {{ block.super }}{% endblock %}
 
 {% block extrahead %}
 {{ block.super }}
@@ -16,11 +14,9 @@
     margin-top: 5px;
   }
 </style>
-{% if include_jquery %}
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-{% endif %}
 <script type="text/javascript">
-  function LogTailer(baseUrl, updateInterval, timeout, autoScroll, autoPoll) {
+(function($) {
+  window.LogTailer = function(baseUrl, updateInterval, timeout, autoScroll, autoPoll) {
     this.baseUrl = baseUrl;
     this.timeout = timeout || (1000 * 60 * 8);
     this.updateInterval = updateInterval || 4000;
@@ -90,13 +86,13 @@
       );
     }
   }
+})(django.jQuery);
 </script>
 {% endblock %}
 
 {% block breadcrumbs %}
 <div class="breadcrumbs">
   <a href="{% url 'admin:index' %}">Home</a>
-  &rsaquo; <a href="{% url 'log_list' %}">Logtail</a>
 </div>
 {% endblock %}
 
@@ -111,7 +107,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for log, path in object_list %}
+          {% for log, path in logfiles %}
             <tr>
               <th scope="row"><a href="#" class="logfile_change">{{ log }}</a></th>
               <td>{{ path }}</td>
@@ -131,11 +127,10 @@
   </ul>
 
   <script type="text/javascript">
-    (function() {
-      var baseUrl = "{% url "log_list" %}";
-      var updateInterval = {{ update_interval }};
-      window.tailer = new LogTailer(baseUrl, updateInterval);
-    })();
+  (function($) {
+    var baseUrl = "{% url 'admin:django_logtail_log_changelist' %}";
+    var updateInterval = {{ update_interval }};
+    window.tailer = new window.LogTailer(baseUrl, updateInterval);
 
     // Configure JQuery Events
     $('.logfile_change').live('click', function() {
@@ -166,6 +161,7 @@
         $(this).text('Turn Auto-Poll Off');
       }
     });
+  })(django.jQuery);
 
   </script>
 {% endblock %}
