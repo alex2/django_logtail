@@ -53,5 +53,6 @@ You can build a development environment using the following instructions::
 
     virtualenv venv --distribute
     source venv/bin/activate
+    pip install -e .
     python manage.py syncdb
     python manage.py runserver
