@@ -56,3 +56,20 @@ You can build a development environment using the following instructions::
     pip install -e .
     python manage.py syncdb
     python manage.py runserver
+
+Logtail ``dumpdata`` Issue
+==========================
+
+If you use ``python manage.py dumpdata``, be sure to add the
+``--exclude=logtail`` flag to your command or you'll be presented with a::
+
+    CommandError: Unable to serialize database: relation "django_logtail_log" does not exist
+    LINE 1: SELECT "django_logtail_log"."id" FROM "django_logtail_log" O...
+
+traceback when you run the dumpdata command. This is because django_logtail
+needs to pretend that it has a model called ``Log`` when registering with the
+django admin site (``ModelAdmin`` objects can't exist without being bound to a
+``Model``).
+
+``syncdb`` will still work however, because the pretend model is marked as
+``managed = False``.
