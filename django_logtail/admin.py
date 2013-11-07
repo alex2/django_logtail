@@ -2,7 +2,7 @@ from os.path import isfile, getsize
 import json
 from django.contrib import admin
 from django.contrib.admin.views.main import ChangeList
-from django.conf.urls.defaults import url, patterns
+from django.conf.urls import url, patterns
 from django.http import HttpResponse, Http404
 from django_logtail.models import Log
 from django_logtail import app_settings
