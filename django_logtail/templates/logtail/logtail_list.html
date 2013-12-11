@@ -44,12 +44,12 @@
     window.tailer = new window.LogTailer(baseUrl, updateInterval);
 
     // Configure JQuery Events
-    $('.logfile_change').live('click', function() {
+    $('.logfile_change').on('click', function() {
       var log = $(this).text();
       window.tailer.poll(log);
     });
 
-    $('#auto-scroll-toggle').live('click', function(e) {
+    $('#auto-scroll-toggle').on('click', function(e) {
       e.preventDefault();
       if (window.tailer.autoScroll) {
         window.tailer.autoScroll = false;
@@ -61,7 +61,7 @@
       }
     });
 
-    $('#auto-poll-toggle').live('click', function(e) {
+    $('#auto-poll-toggle').on('click', function(e) {
       e.preventDefault();
       if (window.tailer.autoPoll) {
         window.tailer.autoPoll = false;
