@@ -49,6 +49,9 @@ class LogAdmin(admin.ModelAdmin):
 
         if seek_to > file_length:
             seek_to = file_length
+            
+        if file_length >= 5120 and seek_to == 0:
+            seek_to = file_length - 5120
 
         try:
             context['log'] = file(log_file, 'r')
