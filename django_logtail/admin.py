@@ -2,7 +2,7 @@ from os.path import isfile, getsize
 import json
 from django.contrib import admin
 from django.contrib.admin.views.main import ChangeList
-from django.conf.urls import url, patterns
+from django.conf.urls import url
 from django.http import HttpResponse, Http404
 from django_logtail.models import Log
 from django_logtail import app_settings
@@ -54,7 +54,7 @@ class LogAdmin(admin.ModelAdmin):
             seek_to = file_length - 5120
 
         try:
-            context['log'] = file(log_file, 'r')
+            context['log'] = open(log_file, 'r')
             context['log'].seek(seek_to)
             context['starts'] = seek_to
         except IOError:
@@ -84,7 +84,7 @@ class LogAdmin(admin.ModelAdmin):
             has_add_permission=self.has_add_permission(request),
             update_interval=app_settings.LOGTAIL_UPDATE_INTERVAL,
             logfiles=((l, f) for l, f
-                in app_settings.LOGTAIL_FILES.iteritems()
+                in app_settings.LOGTAIL_FILES.items()
                 if isfile(f)
             ),
         )
