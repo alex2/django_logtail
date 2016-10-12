@@ -17,7 +17,7 @@ class LogAdmin(admin.ModelAdmin):
 
     class Media:
         js = (
-            'admin/js/jquery.min.js', 'admin/js/jquery.init.js',
+            'admin/js/vendor/jquery/jquery.min.js',
             'logtail/js/logtail.js',
         )
         css = {
