@@ -2,10 +2,10 @@
 Changelog for django_logtail
 ============================
 
-0.2.1 (unreleased)
+0.3.0 (2016-10-23)
 ------------------
 
-- Nothing changed yet.
+- Add Django 1.10 and Python 3.5 compatibility (thanks @AlJohri)
 
 
 0.2.0 (2013-12-11)
