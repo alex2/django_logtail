@@ -1,15 +1,17 @@
-import sys, os
 from setuptools import setup, find_packages
 
 version = '0.2.1dev'
-long_description = open('README.rst').read() + '\n\n' + \
-                   open('CHANGES.rst').read()
+long_description = '\n\n'.join(
+    open('README.rst').read(),
+    open('CHANGES.rst').read(),
+)
 
 setup(
     name='django_logtail',
     version=version,
-    description='A log viewing and tailing utility accessible via a Django ' \
-                'admin panel',
+    description=(
+        'A log viewing and tailing utility accessible via a Django admin panel'
+    ),
     long_description=long_description,
     keywords='django admin logfile viewer tail log',
     author='Alex Holmes',
