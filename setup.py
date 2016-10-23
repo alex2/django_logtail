@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 
-version = '0.3.0'
-long_description = '\n\n'.join(
+version = '0.3.1dev0'
+long_description = '\n\n'.join((
     open('README.rst').read(),
     open('CHANGES.rst').read(),
-)
+))
 
 setup(
     name='django_logtail',
